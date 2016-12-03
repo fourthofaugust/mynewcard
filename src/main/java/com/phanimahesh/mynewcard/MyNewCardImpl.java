@@ -72,13 +72,8 @@ public class MyNewCardImpl implements MyNewCard {
     private String generate(final String cardType, final boolean expRequired,
                             final boolean cvvRequired, final long quantity) {
         String result = "";
-        LOG.debug("Test");
 
         return result;
     }
 
-    public static void main(String... args) {
-        System.out.println("Test");
-        LOG.debug("Testing logger");
-    }
 }

@@ -1,4 +1,4 @@
-package com.phanimahesh;
+package com.phanimahesh.mynewcard;
 
 /**
  * MyNewCard is an api to generate credit card numbers

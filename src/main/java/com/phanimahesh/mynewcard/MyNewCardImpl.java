@@ -1,4 +1,7 @@
-package com.phanimahesh;
+package com.phanimahesh.mynewcard;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An implementation of MyNewCard
@@ -7,27 +10,30 @@ package com.phanimahesh;
  *
  * @author Phani Mahesh | http://dev.phanimahesh.com
  */
-public class MyNewCardImpl implements MyNewCard{
+public class MyNewCardImpl implements MyNewCard {
 
-    private  final String DEFAULT_CARD_TYPE = "VISA";
+    private final String DEFAULT_CARD_TYPE = "VISA";
     private final boolean DEFAULT_EXP = false;
     private final boolean DEFAULT_CVV = false;
-    private final Long  DEFAULT_QUANTITY = 1L;
+    private final Long DEFAULT_QUANTITY = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(MyNewCardImpl.class);
 
     /**
      * This method generate a random credit card number
      * with a cvv and exp date
+     *
      * @return a JSON String containing the card info
      */
     public String generateNewCard() {
-        return generate(DEFAULT_CARD_TYPE, DEFAULT_EXP, DEFAULT_CVV, DEFAULT_QUANTITY );
+        return generate(DEFAULT_CARD_TYPE, DEFAULT_EXP, DEFAULT_CVV, DEFAULT_QUANTITY);
     }
 
     /**
      * This method generates only a credit card number of
      * the required type
+     *
      * @param cardType Required card type. Ex. VISA
-     * @return  a JSON String containing the card info
+     * @return a JSON String containing the card info
      */
     public String generateNewCard(String cardType) {
         return generate(cardType, DEFAULT_EXP, DEFAULT_CVV, DEFAULT_QUANTITY);
@@ -37,7 +43,8 @@ public class MyNewCardImpl implements MyNewCard{
      * This method generates a credit card number of
      * the required type. You also have an option to
      * generate cvv and exp date
-     * @param cardType Required card type. EX. "VISA"
+     *
+     * @param cardType    Required card type. EX. "VISA"
      * @param expRequired To generate an expiry date or vice-versa
      * @param cvvRequired To generate cvv or vice-versa
      * @return a JSON String containing the card info
@@ -51,10 +58,11 @@ public class MyNewCardImpl implements MyNewCard{
      * the required type. You also have an option to
      * generate cvv and exp date. Additionally you also
      * have an option too choose the number of results.
-     * @param cardType cardType Required card type. EX. "VISA"
+     *
+     * @param cardType    cardType Required card type. EX. "VISA"
      * @param expRequired To generate an expiry date or vice-versa
      * @param cvvRequired To generate cvv or vice-versa
-     * @param quantity Require number results
+     * @param quantity    Require number results
      * @return a JSON String containing the card info
      */
     public String generateNewCard(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
@@ -64,7 +72,13 @@ public class MyNewCardImpl implements MyNewCard{
     private String generate(final String cardType, final boolean expRequired,
                             final boolean cvvRequired, final long quantity) {
         String result = "";
+        LOG.debug("Test");
 
         return result;
+    }
+
+    public static void main(String... args) {
+        System.out.println("Test");
+        LOG.debug("Testing logger");
     }
 }

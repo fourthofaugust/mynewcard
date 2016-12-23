@@ -25,8 +25,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @return a list of JSON Strings containing the card info
      */
     public List<String> generate() {
-        return generate(Optional.ofNullable(CommonUtil.DEFAULT_CARD_TYPE), CommonUtil.DEFAULT_EXP,
-                CommonUtil.DEFAULT_CVV, CommonUtil.DEFAULT_QUANTITY);
+        return generate(CommonUtil.DEFAULT_CARD_TYPE);
     }
 
     /**
@@ -37,8 +36,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @return a list of JSON Strings containing the card info
      */
     public List<String> generate(String cardType) {
-        return generate(Optional.ofNullable(cardType), CommonUtil.DEFAULT_EXP, CommonUtil.DEFAULT_CVV,
-                CommonUtil.DEFAULT_QUANTITY);
+        return generate(cardType, CommonUtil.DEFAULT_EXP, CommonUtil.DEFAULT_CVV);
     }
 
     /**
@@ -52,7 +50,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @return a list of JSON Strings containing the card info
      */
     public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired) {
-        return generate(Optional.ofNullable(cardType), expRequired, cvvRequired, CommonUtil.DEFAULT_QUANTITY);
+        return generate(cardType, expRequired, cvvRequired, CommonUtil.DEFAULT_QUANTITY);
     }
 
     /**
@@ -68,8 +66,11 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @return a list of JSON Strings containing the card info
      */
     public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
-        return generate(Optional.ofNullable(cardType), expRequired, cvvRequired,
-                quantity <= 0 ? CommonUtil.DEFAULT_QUANTITY : quantity);
+
+        if(quantity <= 0) {
+            throw new IllegalArgumentException("Quantity can't be zero or negative");
+        }
+        return generateCC(Optional.ofNullable(cardType), expRequired, cvvRequired, quantity);
     }
 
     /**
@@ -80,7 +81,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @param quantity    Require number results
      * @return a list of JSON Strings containing the card info
      */
-    private List<String> generate(final Optional<String> cardType, final boolean expRequired,
+    private List<String> generateCC(final Optional<String> cardType, final boolean expRequired,
                             final boolean cvvRequired, final long quantity) {
 
 
@@ -139,7 +140,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
 
         long startTime = System.currentTimeMillis();
         CreditCardGenerator card = new CreditCardGeneratorImpl();
-        List<String> result = card.generate("Visa", true, true, 100000);
+        List<String> result = card.generate("Master", true, true, 10);
         long endTime = System.currentTimeMillis();
 
         System.out.println("The output size is " + result.size());

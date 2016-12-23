@@ -137,7 +137,7 @@ public class MyNewCardImpl implements MyNewCard {
     public static void main(String... args) {
 
         MyNewCard a = new MyNewCardImpl();
-        List<String> result = a.generateNewCard("phani");
+        List<String> result = a.generateNewCard("Master");
         result.forEach(System.out::println);
 
     }

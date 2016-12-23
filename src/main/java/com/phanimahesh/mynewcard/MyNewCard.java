@@ -1,5 +1,7 @@
 package com.phanimahesh.mynewcard;
 
+import java.util.List;
+
 /**
  * MyNewCard is an api to generate credit card numbers
  * and use them as "Test Data"
@@ -11,14 +13,14 @@ public interface MyNewCard {
      * with a cvv and exp date
      * @return a JSON String containing the card info
      */
-    String generateNewCard();
+    List<String> generateNewCard();
     /**
      * This method generates only a credit card number of
      * the required type
      * @param cardType Required card type. Ex. VISA
      * @return  a JSON String containing the card info
      */
-    String generateNewCard(String cardType);
+    List<String> generateNewCard(String cardType);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -28,7 +30,7 @@ public interface MyNewCard {
      * @param cvvRequired To generate cvv or vice-versa
      * @return a JSON String containing the card info
      */
-    String generateNewCard(String cardType, boolean expRequired, boolean cvvRequired);
+    List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -40,6 +42,6 @@ public interface MyNewCard {
      * @param quantity Require number results
      * @return a JSON String containing the card info
      */
-    String generateNewCard(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
+    List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
 
 }

@@ -113,7 +113,7 @@ public class MyNewCardImpl implements MyNewCard {
 
 
                         if (cvvRequired) {
-                            creditCardJSON.append("\",Exp\":\""+ CommonUtil.generateExpDate() +"\",");
+                            creditCardJSON.append(",\"Exp\":\""+ CommonUtil.generateExpDate() +"\",");
                         }
                         if (expRequired) {
                             creditCardJSON.append("\"CVV\":\""+ CommonUtil.generateCvv() +"\"");

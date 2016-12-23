@@ -88,7 +88,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
         List<String> creditCardList = new ArrayList<>();
 
         CommonUtil.CCList.parallelStream().filter(
-                ccType -> ccType.contains(!(cardType.isPresent()) || cardType.get().equals("")
+                ccType -> ccType.contains(!(cardType.isPresent() || cardType.get().equals(""))
                         ? CommonUtil.DEFAULT_CARD_TYPE : cardType.get()))
 
                 .forEach(ccType -> {
@@ -145,6 +145,8 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
 
         System.out.println("The output size is " + result.size());
         System.out.println("The total execution time is " + ((endTime - startTime) * 0.001));
+
+        result.forEach(e -> System.out.println(e));
 
     }
 }

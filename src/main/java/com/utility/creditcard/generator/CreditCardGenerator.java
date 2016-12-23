@@ -1,26 +1,26 @@
-package com.phanimahesh.mynewcard;
+package com.utility.creditcard.generator;
 
 import java.util.List;
 
 /**
- * MyNewCard is an api to generate credit card numbers
+ * CreditCardGenerator is an api to generate credit card numbers
  * and use them as "Test Data"
  */
-public interface MyNewCard {
+public interface CreditCardGenerator {
 
     /**
      * This method generate a random credit card number
      * with a cvv and exp date
      * @return a JSON String containing the card info
      */
-    List<String> generateNewCard();
+    List<String> generate();
     /**
      * This method generates only a credit card number of
      * the required type
      * @param cardType Required card type. Ex. VISA
      * @return  a JSON String containing the card info
      */
-    List<String> generateNewCard(String cardType);
+    List<String> generate(String cardType);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -30,7 +30,7 @@ public interface MyNewCard {
      * @param cvvRequired To generate cvv or vice-versa
      * @return a JSON String containing the card info
      */
-    List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired);
+    List<String> generate(String cardType, boolean expRequired, boolean cvvRequired);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -42,6 +42,6 @@ public interface MyNewCard {
      * @param quantity Require number results
      * @return a JSON String containing the card info
      */
-    List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
+    List<String> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
 
 }

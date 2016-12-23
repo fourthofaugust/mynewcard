@@ -1,19 +1,20 @@
-package com.phanimahesh.mynewcard;
+package com.utility.creditcard.generator;
 
-import com.phanimahesh.mynewcard.util.CommonUtil;
+import com.utility.creditcard.generator.util.CommonUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 /**
- * An implementation of MyNewCard
- * MyNewCard is an api to generate credit card numbers
+ * An implementation of CreditCardGenerator
+ * CreditCardGenerator is an api to generate credit card numbers
  * and use them as "Test Data"
  *
  * @author Phani Mahesh | http://dev.phanimahesh.com
  */
-public class MyNewCardImpl implements MyNewCard {
+public class CreditCardGeneratorImpl implements CreditCardGenerator {
 
 
 
@@ -23,7 +24,7 @@ public class MyNewCardImpl implements MyNewCard {
      *
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generateNewCard() {
+    public List<String> generate() {
         return generate(Optional.ofNullable(CommonUtil.DEFAULT_CARD_TYPE), CommonUtil.DEFAULT_EXP,
                 CommonUtil.DEFAULT_CVV, CommonUtil.DEFAULT_QUANTITY);
     }
@@ -35,7 +36,7 @@ public class MyNewCardImpl implements MyNewCard {
      * @param cardType Required card type. Ex. VISA
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generateNewCard(String cardType) {
+    public List<String> generate(String cardType) {
         return generate(Optional.ofNullable(cardType), CommonUtil.DEFAULT_EXP, CommonUtil.DEFAULT_CVV,
                 CommonUtil.DEFAULT_QUANTITY);
     }
@@ -50,7 +51,7 @@ public class MyNewCardImpl implements MyNewCard {
      * @param cvvRequired To generate cvv or vice-versa
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired) {
+    public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired) {
         return generate(Optional.ofNullable(cardType), expRequired, cvvRequired, CommonUtil.DEFAULT_QUANTITY);
     }
 
@@ -66,7 +67,7 @@ public class MyNewCardImpl implements MyNewCard {
      * @param quantity    Require number results
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generateNewCard(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
+    public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
         return generate(Optional.ofNullable(cardType), expRequired, cvvRequired,
                 quantity <= 0 ? CommonUtil.DEFAULT_QUANTITY : quantity);
     }
@@ -136,9 +137,13 @@ public class MyNewCardImpl implements MyNewCard {
     //TODO should be removed. only for testing
     public static void main(String... args) {
 
-        MyNewCard a = new MyNewCardImpl();
-        List<String> result = a.generateNewCard("Master");
-        result.forEach(System.out::println);
+        long startTime = System.currentTimeMillis();
+        CreditCardGenerator card = new CreditCardGeneratorImpl();
+        List<String> result = card.generate("Visa", true, true, 100000);
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("The output size is " + result.size());
+        System.out.println("The total execution time is " + ((endTime - startTime) * 0.001));
 
     }
 }

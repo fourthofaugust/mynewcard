@@ -1,4 +1,4 @@
-package com.phanimahesh.mynewcard.util;
+package com.utility.creditcard.generator.util;
 
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 

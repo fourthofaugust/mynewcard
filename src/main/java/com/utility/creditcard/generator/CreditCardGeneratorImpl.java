@@ -98,7 +98,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
                         String intermediateCardNumber = "";
                         boolean isValidLuhn;
                         StringBuilder creditCardJSON = new StringBuilder();
-                        creditCardJSON.append("{");
+                        creditCardJSON.append("{\"UserName\":\""+CommonUtil.generateUserName()+"\",");
 
                         for(int trial = 1000; trial >= 1; trial--) {
 

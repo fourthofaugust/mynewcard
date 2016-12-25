@@ -90,15 +90,14 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
         CommonUtil.CCList.parallelStream().filter(
                 ccType -> ccType.contains(!(cardType.isPresent() || cardType.get().equals(""))
                         ? CommonUtil.DEFAULT_CARD_TYPE : cardType.get()))
-
                 .forEach(ccType -> {
 
-                    for(int qty = 1; qty <= quantity; qty++) {
+                    for(int qty = 0; qty < quantity; qty++) {
 
                         String intermediateCardNumber = "";
                         boolean isValidLuhn;
                         StringBuilder creditCardJSON = new StringBuilder();
-                        creditCardJSON.append("{\"UserName\":\""+CommonUtil.generateUserName()+"\",");
+                        creditCardJSON.append("{\"usrnm\":\""+CommonUtil.generateUserName()+"\",");
 
                         for(int trial = 1000; trial >= 1; trial--) {
 
@@ -110,15 +109,15 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
                             }
                         }
 
-                        creditCardJSON.append("\"CardType\":\""+ ccType.substring(20) +"\",");
-                        creditCardJSON.append("\"CardNumber\":\""+ intermediateCardNumber +"\"");
+                        creditCardJSON.append("\"ctyp\":\""+ ccType.substring(20) +"\",");
+                        creditCardJSON.append("\"cnum\":\""+ intermediateCardNumber +"\"");
 
 
                         if (cvvRequired) {
-                            creditCardJSON.append(",\"Exp\":\""+ CommonUtil.generateExpDate() +"\",");
+                            creditCardJSON.append(",\"exp\":\""+ CommonUtil.generateExpDate() +"\",");
                         }
                         if (expRequired) {
-                            creditCardJSON.append("\"CVV\":\""+ CommonUtil.generateCvv() +"\"");
+                            creditCardJSON.append("\"cvv\":\""+ CommonUtil.generateCvv() +"\"");
                         }
 
                         creditCardJSON.append("}");
@@ -140,14 +139,13 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
 
         long startTime = System.currentTimeMillis();
         CreditCardGenerator card = new CreditCardGeneratorImpl();
-        List<String> result = card.generate("Master", true, true, 10);
+        List<String> result = card.generate("Visa", true, true, 10);
         long endTime = System.currentTimeMillis();
 
         System.out.println("The output size is " + result.size());
         System.out.println("The total execution time is " + ((endTime - startTime) * 0.001));
 
-        result.forEach(e -> System.out.println(e));
-
+       result.forEach(e -> System.out.println(e));
     }
 }
 

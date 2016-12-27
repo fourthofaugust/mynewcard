@@ -1,6 +1,7 @@
 package com.utility.creditcard.generator;
 
 import com.utility.creditcard.generator.util.CommonUtil;
+import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      *
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generate() {
+    public List<Document> generate() {
         return generate(CommonUtil.DEFAULT_CARD_TYPE);
     }
 
@@ -35,7 +36,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @param cardType Required card type. Ex. VISA
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generate(String cardType) {
+    public List<Document> generate(String cardType) {
         return generate(cardType, CommonUtil.DEFAULT_EXP, CommonUtil.DEFAULT_CVV);
     }
 
@@ -49,7 +50,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @param cvvRequired To generate cvv or vice-versa
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired) {
+    public List<Document> generate(String cardType, boolean expRequired, boolean cvvRequired) {
         return generate(cardType, expRequired, cvvRequired, CommonUtil.DEFAULT_QUANTITY);
     }
 
@@ -65,7 +66,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @param quantity    Require number results
      * @return a list of JSON Strings containing the card info
      */
-    public List<String> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
+    public List<Document> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity) {
 
         if(quantity <= 0) {
             throw new IllegalArgumentException("Quantity can't be zero or negative");
@@ -81,11 +82,11 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
      * @param quantity    Require number results
      * @return a list of JSON Strings containing the card info
      */
-    private List<String> generateCC(final Optional<String> cardType, final boolean expRequired,
+    private List<Document> generateCC(final Optional<String> cardType, final boolean expRequired,
                             final boolean cvvRequired, final long quantity) {
 
 
-        List<String> creditCardList = new ArrayList<>();
+        List<Document> creditCardList = new ArrayList<>();
 
         CommonUtil.CCList.stream().filter(
                 ccType -> ccType.contains(!(cardType.isPresent() || cardType.get().equals(""))
@@ -95,11 +96,13 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
                     for(int qty = 0; qty < quantity; qty++) {
 
                         String intermediateCardNumber = "";
-                        boolean isValidLuhn;
-                        StringBuilder creditCardJSON = new StringBuilder();
-                        creditCardJSON.append("{\"usrnm\":\""+CommonUtil.generateUserName()+"\",");
+                        //boolean isValidLuhn;
+                        Document json = new Document();
 
-                        for(int trial = 1000; trial >= 1; trial--) {
+                        json.append("usrnm",CommonUtil.generateUserName());
+
+                        //TODO really required Luhn check here?
+                        /*for(int trial = 1000; trial >= 1; trial--) {
 
                             intermediateCardNumber = CommonUtil.generateRandomNumber(ccType.substring(0,19),"x", "0123456789");
                             isValidLuhn = CommonUtil.luhnCheck(intermediateCardNumber.replaceAll(" ", ""));
@@ -107,35 +110,29 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
                             if(isValidLuhn) {
                                 break;
                             }
-                        }
+                        }*/
+                        intermediateCardNumber = CommonUtil.generateRandomNumber(ccType.substring(0,19),"x", "0123456789");
 
-                        creditCardJSON.append("\"ctyp\":\""+ ccType.substring(20) +"\",");
-                        creditCardJSON.append("\"cnum\":\""+ intermediateCardNumber +"\"");
-
+                        json.append("ctyp",ccType.substring(20));
+                        json.append("cnum",intermediateCardNumber);
 
                         if (expRequired) {
-                            creditCardJSON.append(",\"exp\":\""+ CommonUtil.generateExpDate() +"\",");
+                            json.append("exp",CommonUtil.generateExpDate());
                         }
                         if (cvvRequired) {
-                            //If Amex generate 4 digit CVV
+                            //If Amex generate 4 digit CVV otherwise 3 digit cvv
                             if(ccType.contains("American Express")) {
-                                creditCardJSON.append("\"cvv\":\"" + CommonUtil.generateCvv(true) + "\"");
+                                json.append("cvv",CommonUtil.generateCvv(true));
                             }else {
-                                creditCardJSON.append("\"cvv\":\"" + CommonUtil.generateCvv(false) + "\"");
+                                json.append("cvv",CommonUtil.generateCvv(false));
                             }
                         }
 
-                        creditCardJSON.append("}");
-                        creditCardList.add(creditCardJSON.toString());
+                        creditCardList.add(json);
 
                     }
                 }
                 );
-
-
-        if(creditCardList.size() == 0) {
-            creditCardList.add("{\"error\":\"Please enter a valid card type\"}");
-        }
         return creditCardList;
     }
 }

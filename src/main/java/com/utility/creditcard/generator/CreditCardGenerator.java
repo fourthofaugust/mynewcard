@@ -1,5 +1,7 @@
 package com.utility.creditcard.generator;
 
+import org.bson.Document;
+
 import java.util.List;
 
 /**
@@ -13,14 +15,14 @@ public interface CreditCardGenerator {
      * with a cvv and exp date
      * @return a JSON String containing the card info
      */
-    List<String> generate();
+    List<Document> generate();
     /**
      * This method generates only a credit card number of
      * the required type
      * @param cardType Required card type. Ex. VISA
      * @return  a JSON String containing the card info
      */
-    List<String> generate(String cardType);
+    List<Document> generate(String cardType);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -30,7 +32,7 @@ public interface CreditCardGenerator {
      * @param cvvRequired To generate cvv or vice-versa
      * @return a JSON String containing the card info
      */
-    List<String> generate(String cardType, boolean expRequired, boolean cvvRequired);
+    List<Document> generate(String cardType, boolean expRequired, boolean cvvRequired);
     /**
      * This method generates a credit card number of
      * the required type. You also have an option to
@@ -42,6 +44,6 @@ public interface CreditCardGenerator {
      * @param quantity Require number results
      * @return a JSON String containing the card info
      */
-    List<String> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
+    List<Document> generate(String cardType, boolean expRequired, boolean cvvRequired, long quantity);
 
 }

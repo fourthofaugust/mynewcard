@@ -133,19 +133,5 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
         }
         return creditCardList;
     }
-
-    //TODO should be removed. only for testing
-    public static void main(String... args) {
-
-        long startTime = System.currentTimeMillis();
-        CreditCardGenerator card = new CreditCardGeneratorImpl();
-        List<String> result = card.generate("Visa", true, true, 10);
-        long endTime = System.currentTimeMillis();
-
-        System.out.println("The output size is " + result.size());
-        System.out.println("The total execution time is " + ((endTime - startTime) * 0.001));
-
-       result.forEach(e -> System.out.println(e));
-    }
 }
 

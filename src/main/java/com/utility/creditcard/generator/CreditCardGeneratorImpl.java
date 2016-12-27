@@ -87,7 +87,7 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
 
         List<String> creditCardList = new ArrayList<>();
 
-        CommonUtil.CCList.parallelStream().filter(
+        CommonUtil.CCList.stream().filter(
                 ccType -> ccType.contains(!(cardType.isPresent() || cardType.get().equals(""))
                         ? CommonUtil.DEFAULT_CARD_TYPE : cardType.get()))
                 .forEach(ccType -> {
@@ -113,11 +113,16 @@ public class CreditCardGeneratorImpl implements CreditCardGenerator {
                         creditCardJSON.append("\"cnum\":\""+ intermediateCardNumber +"\"");
 
 
-                        if (cvvRequired) {
+                        if (expRequired) {
                             creditCardJSON.append(",\"exp\":\""+ CommonUtil.generateExpDate() +"\",");
                         }
-                        if (expRequired) {
-                            creditCardJSON.append("\"cvv\":\""+ CommonUtil.generateCvv() +"\"");
+                        if (cvvRequired) {
+                            //If Amex generate 4 digit CVV
+                            if(ccType.contains("American Express")) {
+                                creditCardJSON.append("\"cvv\":\"" + CommonUtil.generateCvv(true) + "\"");
+                            }else {
+                                creditCardJSON.append("\"cvv\":\"" + CommonUtil.generateCvv(false) + "\"");
+                            }
                         }
 
                         creditCardJSON.append("}");

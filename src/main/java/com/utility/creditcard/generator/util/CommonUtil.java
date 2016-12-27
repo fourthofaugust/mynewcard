@@ -36,15 +36,25 @@ public class CommonUtil {
      */
     public static String generateExpDate() {
         return Calendar.getInstance().get(Calendar.YEAR)+ ThreadLocalRandom.current().nextInt(2,6)
-                + "/" + ThreadLocalRandom.current().nextInt(1,12);
+                + "/" + String.format("%02d",ThreadLocalRandom.current().nextInt(1,12));
     }
 
     /**
      * A static utility method to generate a random CVV
      * @return int CVV number
      */
-    public static int generateCvv() {
-        return ThreadLocalRandom.current().nextInt(101,998);
+    public static String generateCvv(boolean digit4) {
+        int cvv = 0;
+        String formattedCvv = "101";
+        if(digit4){
+            cvv = ThreadLocalRandom.current().nextInt(1,998);
+            cvv = (cvv * 10)  + ThreadLocalRandom.current().nextInt(0,9);
+            formattedCvv = String.format("%04d",cvv);
+        } else {
+            cvv = ThreadLocalRandom.current().nextInt(1,998);
+            formattedCvv = String.format("%03d",cvv);
+        }
+        return formattedCvv;
     }
 
     public static String generateUserName() {
@@ -157,14 +167,14 @@ public class CommonUtil {
                         "649x xxxx xxxx xxxx Discover Card - prefix(649)",
                         "6221 26xx xxxx xxxx Discover Card - prefix(622126)",
                         "6229 25xx xxxx xxxx Discover Card - prefix(622925)",
-                        "3710 xxxx xxxx xxxx American Express Company, USA (Green)",
-                        "3712 xxxx xxxx xxxx American Express Company, USA (Green)",
-                        "3728 xxxx xxxx xxxx American Express Company, USA (Gold)",
-                        "3703 70xx xxxx xxxx American Express Company, USA (Platinum)",
-                        "3703 71xx xxxx xxxx American Express Company, USA (Platinum)",
-                        "3738 xxxx xxxx xxxx American Express Company, USA (Corporate Card)",
-                        "3702 46xx xxxx xxxx American Express - Industrial And Commercial Bank Of China, China",
-                        "3702 47xx xxxx xxxx American Express - Industrial And Commercial Bank Of China, China",
+                        "3714 xxxx xxxx xxx  American Express Company, USA (Green)",
+                        "3712 xxxx xxxx xxx  American Express Company, USA (Green)",
+                        "3728 xxxx xxxx xxx  American Express Company, USA (Gold)",
+                        "3703 70xx xxxx xxx  American Express Company, USA (Platinum)",
+                        "3703 71xx xxxx xxx  American Express Company, USA (Platinum)",
+                        "3738 xxxx xxxx xxx  American Express Company, USA (Corporate Card)",
+                        "3702 46xx xxxx xxx  American Express - Industrial And Commercial Bank Of China, China",
+                        "3702 47xx xxxx xxx  American Express - Industrial And Commercial Bank Of China, China",
                         "50xx xxxx xxxx xxxx Maestro Prefix(50)",
                         "56xx xxxx xxxx xxxx Maestro Prefix(56)",
                         "57xx xxxx xxxx xxxx Maestro Prfix(57)",
@@ -689,8 +699,8 @@ public class CommonUtil {
         String randomNumber = "";
         numberSequence += "";
 
-        for(int i = 1; i <= cardSequence.length(); i++) {
-            String cardSubString = cardSequence.substring(i-1, i);
+        for(int i = 1; i <= cardSequence.trim().length(); i++) {
+            String cardSubString = cardSequence.trim().substring(i-1, i);
             int tempIndex = placeHolder.indexOf(cardSubString);
 
             if( tempIndex == -1) {

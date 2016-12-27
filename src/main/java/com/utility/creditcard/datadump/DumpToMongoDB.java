@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
  */
 public class DumpToMongoDB {
 
-    //TODO should be removed. only for testing
     public static void main(String... args) {
 
         long startTime = System.currentTimeMillis();
         CreditCardGenerator card = new CreditCardGeneratorImpl();
-        List<String> result = card.generate("Visa", true, true, 1000);
+        List<String> result = card.generate("Visa", true, true, 30000);
         long endTime = System.currentTimeMillis();
 
         System.out.println("The output size is " + result.size());
         System.out.println("The total execution time is " + ((endTime - startTime) * 0.001));
 
+        //convert json string to BSON document to insert into MongoDB
         List<Document> ccdocument = result.parallelStream().filter(Objects::nonNull)
         .map(Document::parse).collect(Collectors.toList());
         startTime = System.currentTimeMillis();
